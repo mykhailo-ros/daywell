@@ -9,7 +9,9 @@ const pad = (n) => String(n).padStart(2, '0');
 const dkey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 const fromKey = (k) => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
 const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
-const today = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+// Demo time travel: S.offset moves the app's "today" forward without touching the clock
+const realToday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+const today = () => { const d = realToday(); d.setDate(d.getDate() + ((typeof S !== 'undefined' && S && S.offset) || 0)); return d; };
 const dow = (d) => (d.getDay() + 6) % 7; // Mon = 0
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const DAY1 = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -198,7 +200,7 @@ function Home() {
     <div class="dw-sechead"><h2 class="t-heading">Today</h2><span class="t-caption c-ink3">${items.length} items</span></div>
     <ul class="dw-list">${rows || '<li class="empty t-body">Nothing scheduled today.</li>'}</ul>
     <div class="dw-strip mt4">
-      <button data-go="#habits"><div class="t-caption">Streak</div><div class="t-numeral mt1">${best ? `${best.n} ${best.n === 1 ? 'day' : 'days'}` : '–'}</div><div class="t-caption c-ink3">${best ? esc(best.h.name) : ''}</div></button>
+      <button data-go="#habits"><div class="t-caption">Streak</div><div class="t-numeral mt1">${best && best.n ? `${best.n} ${best.n === 1 ? 'day' : 'days'}` : '0 days'}</div><div class="t-caption c-ink3">${best && best.n ? esc(best.h.name) : 'Starts with one'}</div></button>
       <button data-go="#habits"><div class="t-caption">Today</div><div class="t-numeral mt1">${done} of ${items.length}</div><div class="dw-bar"><i style="width:${items.length ? Math.round((done / items.length) * 100) : 0}%"></i></div></button>
       <button data-a="badges"><div class="t-caption">Latest badge</div><div class="row mt2"><span class="c-accent">${ic('award', 22)}</span><span class="t-label">${badge ? esc(badge.name) : 'None yet'}</span></div></button>
     </div>
@@ -206,6 +208,10 @@ function Home() {
       <button class="dw-entry" data-go="#med">${ic('breath', 22)}<span class="t-label">Meditation</span></button>
       <button class="dw-entry" data-go="#habits">${ic('habit', 22)}<span class="t-label">Habits</span></button>
       <button class="dw-entry" disabled title="Coming soon">${ic('exercise', 22)}<span class="t-label">Exercise · Soon</span></button>
+    </div>
+    <div class="dw-panel mt6 between" style="padding:10px 12px 10px 16px">
+      <div><div class="t-overline up c-ink3">Demo</div><div class="t-caption c-ink2">${S.offset ? `Simulating ${S.offset === 1 ? 'tomorrow' : `${S.offset} days ahead`}` : 'Real today'}</div></div>
+      <div class="row" style="gap:4px">${S.offset ? '<button class="dw-sbtn" data-a="realDay">Back to today</button>' : ''}<button class="dw-sbtn outline" data-a="nextDay">Next day ${ic('chevron-right', 16)}</button></div>
     </div>
   </div>`;
 }
@@ -573,7 +579,16 @@ const A = {
   ciNot() { ui.sheet = null; S.pending = null; save(); render(); },
   ciLater() { ui.sheet = null; S.pending = null; save(); render(); },
   closeDone() { closeDone(); },
-  reset() { if (confirm('Reset all demo data?')) { localStorage.removeItem(KEY); S = seed(); ui.sheet = null; ui.draft = null; go('#home'); } },
+  nextDay() { S.offset = (S.offset || 0) + 1; S.pending = null; save(); ui.sheet = null; ui.flash = null; go('#home'); },
+  realDay() {
+    // Drop anything logged on simulated days so the real calendar stays clean
+    const k = dkey(realToday());
+    for (const d of Object.keys(S.log)) if (d > k) delete S.log[d];
+    for (const d of Object.keys(S.extra)) if (d > dkey(addDays(realToday(), 1))) delete S.extra[d];
+    S.badges = S.badges.filter((b) => b.date <= k);
+    S.offset = 0; save(); ui.sheet = null; go('#home');
+  },
+  reset() { if (confirm('Reset all demo data?')) { localStorage.removeItem(KEY); S = null; S = seed(); ui.sheet = null; ui.draft = null; go('#home'); } },
 };
 
 document.addEventListener('click', (e) => {
