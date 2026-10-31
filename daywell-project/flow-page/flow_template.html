@@ -1,0 +1,173 @@
+<title>Daywell User Flows</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one horizontal track per flow (Start, Meditation, Habits); each step = how-you-got-here arrow, then the screen. Present mode steps through the same list full size. */
+:root{
+  --p-bg:#efefeb; --p-panel:#ffffff; --p-fg:#161616; --p-muted:#55554f; --p-line:#d6d6d0; --p-accent:#2f6f62; --p-on-accent:#ffffff; --p-stage:#e4e4df;
+  --p-sans:Figtree,"Helvetica Neue",system-ui,sans-serif; --p-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --p-z:.55;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--p-bg:#141615;--p-panel:#1d201f;--p-fg:#ecece8;--p-muted:#a5a8a3;--p-line:#343836;--p-accent:#86c2b2;--p-on-accent:#10201c;--p-stage:#0e100f;color-scheme:dark}}
+:root[data-theme="dark"]{--p-bg:#141615;--p-panel:#1d201f;--p-fg:#ecece8;--p-muted:#a5a8a3;--p-line:#343836;--p-accent:#86c2b2;--p-on-accent:#10201c;--p-stage:#0e100f;color-scheme:dark}
+
+/*PHONE_TOKENS*/
+/*PHONE_CSS*/
+
+body{background:var(--p-bg);color:var(--p-fg);font-family:var(--p-sans);font-size:15px;line-height:1.5}
+.wrap{max-width:1440px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px}
+.top{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;padding-bottom:28px;border-bottom:1px solid var(--p-line)}
+.top .eyebrow{font-family:var(--p-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--p-muted);margin:0}
+.top h1{font-size:clamp(32px,5vw,48px);line-height:1.05;letter-spacing:-.02em;font-weight:600;margin:6px 0 10px;text-wrap:balance}
+.top p.lede{margin:0;max-width:60ch;color:var(--p-muted)}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.btn{font:inherit;font-weight:600;height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--p-line);background:var(--p-panel);color:var(--p-fg);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--p-accent);border-color:var(--p-accent);color:var(--p-on-accent)}
+.btn:focus-visible,.frame:focus-visible{outline:2px solid var(--p-accent);outline-offset:3px}
+.keys{font-size:13px;color:var(--p-muted)}
+kbd{font-family:var(--p-mono);font-size:12px;border:1px solid var(--p-line);border-radius:5px;padding:1px 6px;background:var(--p-panel)}
+
+.lane{margin-top:44px}
+.lane-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-bottom:18px}
+.lane-head h2{margin:0;font-size:22px;font-weight:600;letter-spacing:-.01em}
+.lane-head p{margin:0;color:var(--p-muted)}
+.track{list-style:none;margin:0;padding:4px 0 8px;display:flex;flex-wrap:wrap;gap:36px 56px}
+.step{flex:none;width:calc(390px * var(--p-z));position:relative;display:flex;flex-direction:column}
+.how{height:56px;display:flex;align-items:flex-end;padding-bottom:10px;font-size:12.5px;line-height:1.35;color:var(--p-muted)}
+.step:not(:first-child):before,.step:not(:first-child):after{content:"";position:absolute;pointer-events:none}
+.step:not(:first-child):before{left:-46px;width:34px;top:calc(56px + 844px * var(--p-z) / 2);height:1.5px;background:var(--p-accent)}
+.step:not(:first-child):after{left:-21px;top:calc(56px + 844px * var(--p-z) / 2 - 3.5px);width:8px;height:8px;border-top:1.5px solid var(--p-accent);border-right:1.5px solid var(--p-accent);transform:rotate(45deg)}
+.step.rowstart:before,.step.rowstart:after{display:none}
+.arrow{display:block;height:12px;position:relative}
+.arrow:before{content:"";position:absolute;left:0;right:8px;top:5px;height:1.5px;background:var(--p-accent)}
+.arrow:after{content:"";position:absolute;right:2px;top:1px;width:8px;height:8px;border-top:1.5px solid var(--p-accent);border-right:1.5px solid var(--p-accent);transform:rotate(45deg)}
+.frame{display:block;border-radius:calc(44px * var(--p-z));cursor:zoom-in;padding:0;border:0;background:none;text-align:left}
+.zoom{zoom:var(--p-z)}
+.zoom .dw-phone{box-shadow:0 0 0 1px rgba(22,22,22,.10),0 20px 40px rgba(0,0,0,.10)}
+.cap{display:flex;gap:10px;align-items:baseline;margin-top:14px}
+.num{font-family:var(--p-mono);font-size:12px;color:var(--p-accent)}
+.ttl{font-weight:600}
+
+/* present mode */
+.present{position:fixed;inset:0;z-index:50;background:var(--p-stage);display:grid;grid-template-rows:auto 1fr auto;padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.present[hidden]{display:none!important}
+.pbar{display:flex;justify-content:space-between;align-items:center;gap:12px;height:48px}
+.pbar .where{font-family:var(--p-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--p-muted)}
+.pmain{display:flex;gap:48px;align-items:center;justify-content:center;min-height:0}
+.pphone{overflow:auto;max-height:100%;flex:none;border-radius:24px;scrollbar-width:thin}
+.pnotes{max-width:380px;min-width:0}
+.pnotes .num{font-size:13px}
+.pnotes h2{font-size:30px;line-height:1.1;letter-spacing:-.015em;margin:6px 0 10px;font-weight:600;text-wrap:balance}
+.pnotes .phow{display:flex;gap:10px;align-items:center;color:var(--p-accent);font-weight:500;margin-bottom:14px}
+.pnotes .phow .arrow{width:28px;flex:none}
+.pnotes p{margin:0 0 12px}
+.pnotes ul{margin:0;padding-left:18px;color:var(--p-muted);font-size:14px}
+.pnotes li{margin-bottom:8px}
+.pnav{display:flex;justify-content:center;align-items:center;gap:16px;height:56px}
+.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:60vw}
+.dots button{width:8px;height:8px;border-radius:99px;border:0;padding:0;background:var(--p-line);cursor:pointer}
+.dots button.on{background:var(--p-accent);width:20px}
+@media (max-width:820px){
+  .pmain{flex-direction:column;gap:20px;justify-content:flex-start;overflow:auto}
+  .pnotes{max-width:none}
+  :root{--p-z:.5}
+}
+@media (prefers-reduced-motion:no-preference){.pmain{transition:opacity .15s}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Daywell · first-round screens · 390 × 844 · light mode</p>
+      <h1>User flows</h1>
+      <p class="lede">All <!--COUNT--> screens and states in the order someone moves through them. The line before each screen says how they got there. Select any screen to present it full size.</p>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="start" type="button">Present from the start</button>
+      <span class="keys"><kbd>←</kbd> <kbd>→</kbd> to move, <kbd>Esc</kbd> to close</span>
+    </div>
+  </header>
+
+<!--LANES-->
+</div>
+
+<div class="present" id="present" hidden role="dialog" aria-modal="true" aria-label="Present screens">
+  <div class="pbar"><span class="where" id="where"></span><button class="btn" id="close" type="button">Close</button></div>
+  <div class="pmain" id="pmain">
+    <div class="pphone" id="pphone"></div>
+    <div class="pnotes" id="pnotes"></div>
+  </div>
+  <div class="pnav">
+    <button class="btn" id="prev" type="button" aria-label="Previous screen">← Prev</button>
+    <div class="dots" id="dots"></div>
+    <button class="btn" id="next" type="button" aria-label="Next screen">Next →</button>
+  </div>
+</div>
+
+<script>
+const STEPS = /*STEPS*/;
+const frames = [...document.querySelectorAll('.frame')];
+const pres = document.getElementById('present'), pphone = document.getElementById('pphone'), pnotes = document.getElementById('pnotes');
+const where = document.getElementById('where'), dotsEl = document.getElementById('dots');
+let cur = 0, lastFocus = null;
+
+STEPS.forEach((s, i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.setAttribute('aria-label', 'Screen ' + (i + 1) + ': ' + s.title);
+  b.addEventListener('click', () => show(i));
+  dotsEl.appendChild(b);
+});
+
+function fit(){
+  const ph = pphone.firstElementChild; if (!ph) return;
+  const narrow = innerWidth <= 820;
+  const availH = pres.clientHeight - 48 - 56 - 40;
+  const z = narrow ? Math.min(1, (innerWidth - 32) / 390) : Math.max(.45, Math.min(1, availH / 844));
+  ph.style.zoom = z;
+  pphone.style.maxHeight = narrow ? 'none' : (availH + 'px');
+}
+
+function show(i){
+  cur = (i + STEPS.length) % STEPS.length;
+  const s = STEPS[cur];
+  pphone.innerHTML = '';
+  const clone = frames[cur].querySelector('.dw-phone').cloneNode(true); clone.inert = true;
+  const holder = document.createElement('div'); holder.appendChild(clone);
+  pphone.appendChild(holder); pphone.scrollTop = 0;
+  where.textContent = s.section + ' · ' + (cur + 1) + ' of ' + STEPS.length;
+  pnotes.innerHTML = '<span class="num">' + s.num + '</span><h2></h2><div class="phow"><span class="arrow" aria-hidden="true"></span><span></span></div><p></p><ul></ul>';
+  pnotes.querySelector('h2').textContent = s.title;
+  pnotes.querySelector('.phow span:last-child').textContent = s.how;
+  pnotes.querySelector('p').innerHTML = s.lead;
+  pnotes.querySelector('ul').innerHTML = s.notes;
+  [...dotsEl.children].forEach((d, k) => d.classList.toggle('on', k === cur));
+  fit();
+}
+function open(i){ lastFocus = document.activeElement; pres.hidden = false; document.body.style.overflow = 'hidden'; show(i); document.getElementById('next').focus(); }
+function close(){ pres.hidden = true; document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); }
+
+frames.forEach((f, i) => {
+  f.addEventListener('click', () => open(i));
+  f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+});
+document.getElementById('start').addEventListener('click', () => open(0));
+document.getElementById('close').addEventListener('click', close);
+document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+document.getElementById('next').addEventListener('click', () => show(cur + 1));
+addEventListener('keydown', e => {
+  if (pres.hidden) return;
+  if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1); }
+  else if (e.key === 'Escape') close();
+});
+function markRows(){
+  document.querySelectorAll('.track').forEach(t => {
+    let prev = null;
+    t.querySelectorAll('.step').forEach(st => { st.classList.toggle('rowstart', !!prev && st.offsetTop > prev.offsetTop + 4); prev = st; });
+  });
+}
+markRows();
+addEventListener('resize', () => { markRows(); if (!pres.hidden) fit(); });
+</script>

@@ -1,0 +1,58 @@
+/* Daywell MVP: interactive additions on top of tokens.css + bundle.css */
+html,body{height:100%}
+body{background:var(--canvas)}
+.shell{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;gap:40px}
+.side{width:280px;color:var(--ink-2)}
+.side h1{color:var(--ink)}
+.side a,.side button{color:var(--accent);text-decoration:underline;font-size:14px}
+.side ul{padding-left:18px;margin-top:8px}
+.side li{margin-bottom:6px}
+
+.dw-phone{height:min(844px,calc(100vh - 48px))}
+.dw-body{overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding-bottom:24px}
+.dw-body::-webkit-scrollbar{display:none}
+.foot{flex:none;padding:12px var(--space-5) 32px;background:var(--bg)}
+
+@media (max-width:820px){.side{display:none}}
+@media (max-width:500px){
+  .shell{padding:0;display:block}
+  .dw-phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}
+  .dw-status,.dw-homebar{display:none}
+  .dw-body{padding-top:max(12px,env(safe-area-inset-top,0px))}
+  .foot{padding-bottom:max(20px,env(safe-area-inset-bottom,0px))}
+}
+
+/* make the static patterns interactive */
+button:focus-visible,.dw-chip:focus-visible,a:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:10px}
+.dw-chip{background:var(--bg);cursor:pointer}
+.dw-seg button{flex:1;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;color:var(--ink-2)}
+.dw-seg button.on{background:var(--bg);color:var(--ink);box-shadow:var(--shadow-thumb)}
+.dw-days button{flex:1;height:44px;border-radius:var(--radius-sm);border:1px solid var(--line-2);color:var(--ink-2)}
+.dw-days button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.dw-entry{text-align:left;color:var(--ink)}
+.dw-entry:disabled{color:var(--ink-3);cursor:default}
+.dw-strip > button{padding:14px 12px 14px 16px;border-left:1px solid var(--line);text-align:left;min-width:0}
+.dw-strip > button:first-child{border-left:0}
+.dw-card{display:block;width:100%;text-align:left;background:var(--bg)}
+.dw-field input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;color:var(--ink)}
+.dw-field input::placeholder{color:var(--ink-3)}
+.dw-field:focus-within{border:2px solid var(--focus);padding:0 15px}
+.dw-field.search:focus-within{border-color:var(--focus)}
+.dw-field input[type=time]{text-align:right;flex:none;width:auto}
+textarea.dw-textarea{display:block;width:100%;font:inherit;font-size:16px;color:var(--ink);resize:none;outline:0}
+textarea.dw-textarea:focus{border:2px solid var(--focus);padding:13px 15px}
+.dw-toggle{cursor:pointer}
+.dw-opt{width:100%;text-align:left}
+.link{color:var(--ink-2);text-decoration:underline}
+.dw-sbtn.on{border:1px solid var(--accent);color:var(--accent)}
+.dw-btn:disabled{opacity:.45;cursor:default}
+.dw-btn.primary:active{background:var(--accent-press)}
+.dw-check span{transition:background .15s,border-color .15s}
+.dw-item.is-kept .t-body-strong{color:var(--ink-3)}
+
+.dw-scrim{animation:fade .2s ease}
+.dw-sheet{animation:up .24s ease;max-height:88%;overflow-y:auto}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.empty{padding:24px 0;color:var(--ink-3)}
+.allDone{display:flex;flex-direction:column;align-items:center;text-align:center;padding:32px 0 8px}

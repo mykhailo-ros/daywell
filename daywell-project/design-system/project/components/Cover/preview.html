@@ -1,0 +1,55 @@
+<!-- @dsCard height=300 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Daywell — cover</title>
+<style>
+html,body{margin:0;background:var(--bg)}
+.cv{position:relative;width:960px;height:300px;background:var(--bg);overflow:hidden;font-family:var(--font-sans)}
+.cv svg{position:absolute;inset:0}
+.ink{fill:var(--ink)} .acc{fill:var(--accent)} .tint{fill:var(--accent-tint)} .surf{fill:var(--surface)}
+.r-md{rx:var(--radius-md)} .r-lg{rx:var(--radius-lg)}
+.dot-done{fill:var(--accent)} .dot-kept{fill:none;stroke:var(--accent);stroke-width:2} .kept-dash{stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+.name{position:absolute;left:48px;bottom:96px;margin:0;font-size:96px;line-height:.92;font-weight:600;letter-spacing:-2px;color:var(--ink);max-width:440px}
+.tag{position:absolute;left:52px;bottom:52px;margin:0;font-size:14px;line-height:20px;color:var(--ink-2);max-width:420px}
+</style></head>
+<body><div class="cv">
+<svg width="960" height="300" viewBox="0 0 960 300" aria-hidden="true">
+  <!-- blocks: accent-tint 304x300 field (bleeds off top/bottom), ink slab 152x160 (bleeds top/right), accent 152x140 radius-lg, surface 96x96 radius-md
+       arrangement: one wide quiet field holding the week, a dark slab with an accent satellite on the right edge
+       pattern: a literal motif — the check-in dot. "Done counts, Skip and Reschedule keep the streak" → filled dots and kept rings on a 32px (space-8) week grid
+       steps/radii: space-8 pitch, space-4 dot radius x2, radius-lg on the accent block, radius-md on the surface tile -->
+  <rect class="tint" x="520" y="0" width="288" height="300"/>
+  <rect class="ink" x="808" y="0" width="152" height="160"/>
+  <rect class="acc r-lg" x="808" y="160" width="152" height="140"/>
+  <rect class="surf r-md" x="520" y="24" width="96" height="96" style="fill:var(--bg)"/>
+  <circle class="dot-done" cx="556" cy="172" r="8"/>
+    <circle class="dot-done" cx="588" cy="172" r="8"/>
+    <circle class="dot-done" cx="620" cy="172" r="8"/>
+    <circle class="dot-done" cx="652" cy="172" r="8"/>
+    <circle class="dot-done" cx="684" cy="172" r="8"/>
+    <circle class="dot-done" cx="716" cy="172" r="8"/>
+    <circle class="dot-done" cx="748" cy="172" r="8"/>
+    <circle class="dot-done" cx="556" cy="204" r="8"/>
+    <circle class="dot-done" cx="588" cy="204" r="8"/>
+    <circle class="dot-kept" cx="620" cy="204" r="8"/>
+    <line class="kept-dash" x1="616" y1="204" x2="624" y2="204"/>
+    <circle class="dot-done" cx="652" cy="204" r="8"/>
+    <circle class="dot-done" cx="684" cy="204" r="8"/>
+    <circle class="dot-done" cx="716" cy="204" r="8"/>
+    <circle class="dot-done" cx="748" cy="204" r="8"/>
+    <circle class="dot-done" cx="556" cy="236" r="8"/>
+    <circle class="dot-done" cx="588" cy="236" r="8"/>
+    <circle class="dot-done" cx="620" cy="236" r="8"/>
+    <circle class="dot-done" cx="652" cy="236" r="8"/>
+    <circle class="dot-done" cx="684" cy="236" r="8"/>
+    <circle class="dot-kept" cx="716" cy="236" r="8"/>
+    <line class="kept-dash" x1="712" y1="236" x2="720" y2="236"/>
+    <circle class="dot-done" cx="748" cy="236" r="8"/>
+    <circle class="dot-done" cx="556" cy="268" r="8"/>
+    <circle class="dot-done" cx="588" cy="268" r="8"/>
+    <circle class="dot-done" cx="620" cy="268" r="8"/>
+    <circle class="dot-done" cx="652" cy="268" r="8"/>
+    <circle class="dot-done" cx="684" cy="268" r="8"/>
+</svg>
+<p class="name">Daywell</p>
+<p class="tag">Small daily routines, kept calmly.</p>
+</div></body></html>

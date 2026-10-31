@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daywell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: a calm marketing page in the app's own language. Sticky header with the pill wordmark; hero with copy left and two real app screens right;
+   then three plain steps, two feature bands (habits, meditation), the streak rules, a sign-up band and a dark footer with the app icon.
+   Single light look by choice: Daywell is a light-mode brand. */
+:root{
+  --lp-bg:#ffffff; --lp-soft:#f5f5f2; --lp-line:#e4e4e0; --lp-ink:#161616; --lp-ink2:#4f4f4b; --lp-ink3:#6b6b66;
+  --lp-accent:#2f6f62; --lp-accent-press:#245a4f; --lp-tint:#e7f0ec; --lp-night:#161616; --lp-night-ink:#ecece8; --lp-night-muted:#a6a9a4; --lp-mint:#86c2b2;
+  --lp-sans:Figtree,"Helvetica Neue",system-ui,sans-serif;
+  --lp-max:1160px;
+  color-scheme:light;
+}
+/*PHONE_CSS*/
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--lp-bg);color:var(--lp-ink);font-family:var(--lp-sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.lp-in{max-width:var(--lp-max);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.lp-wm{display:block;height:auto}
+.lp-eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--lp-accent);margin:0 0 12px}
+h1,h2,h3{text-wrap:balance;margin:0;font-weight:600}
+h2{font-size:clamp(28px,3.6vw,40px);line-height:1.1;letter-spacing:-.02em}
+h3{font-size:19px;line-height:1.3}
+p{margin:0}
+.lp-muted{color:var(--lp-ink2)}
+
+/* buttons */
+.lp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 22px;border-radius:14px;font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;border:1px solid transparent;white-space:nowrap}
+.lp-btn-primary{background:var(--lp-accent);color:#fff}
+.lp-btn-primary:hover{background:var(--lp-accent-press)}
+.lp-btn-ghost{color:var(--lp-ink);border-color:#8c8c86;background:var(--lp-bg)}
+.lp-btn-ghost:hover{background:var(--lp-soft)}
+.lp-btn-sm{height:40px;padding:0 16px;font-size:15px;border-radius:12px}
+.lp-btn:focus-visible,.lp-nav a:focus-visible,.lp-field input:focus-visible{outline:2px solid var(--lp-accent);outline-offset:2px}
+
+/* header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:rgba(255,255,255,.92)}
+.lp-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--lp-line)}
+.lp-header .lp-in{display:flex;align-items:center;gap:24px;height:68px}
+.lp-logo{display:flex;color:var(--lp-ink);--pill:var(--lp-accent)}
+.lp-nav{display:flex;gap:26px;margin-left:16px;font-size:15px}
+.lp-nav a{text-decoration:none;color:var(--lp-ink2)}
+.lp-nav a:hover{color:var(--lp-ink)}
+.lp-head-cta{margin-left:auto;display:flex;gap:10px;align-items:center}
+.lp-login{font-size:15px;color:var(--lp-ink2);text-decoration:none;padding:8px 10px}
+
+/* hero */
+.lp-hero{padding-block:72px 40px;overflow:hidden}
+.lp-hero .lp-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.lp-hero-copy h1{font-size:clamp(40px,6vw,64px);line-height:1.02;letter-spacing:-.03em}
+.lp-hero .lp-lede{font-size:clamp(18px,1.6vw,20px);color:var(--lp-ink2);margin-top:20px;max-width:34em}
+.lp-hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.lp-avail{display:flex;align-items:center;gap:12px;margin-top:36px;font-size:14px;color:var(--lp-ink3)}
+.lp-avail b{display:block;color:var(--lp-ink);font-weight:600;font-size:15px}
+.lp-appicon{display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:23%;background:var(--lp-accent);color:#fff}
+.lp-appicon-lg{box-shadow:0 18px 40px rgba(47,111,98,.28)}
+.lp-phones{position:relative;height:640px}
+.lp-phone{position:absolute;zoom:.72}
+.lp-phone .dw-phone{box-shadow:0 0 0 1px rgba(22,22,22,.08),0 30px 60px rgba(22,22,22,.14)}
+.lp-phone-back{right:0;top:60px;opacity:.98}
+.lp-phone-front{left:6%;top:0}
+@supports not (zoom:1){.lp-phone{transform:scale(.72);transform-origin:top left}}
+
+/* sections */
+.lp-section{padding-block:88px}
+.lp-soft{background:var(--lp-soft)}
+.lp-head{max-width:640px;margin-bottom:44px}
+.lp-head p{margin-top:14px;font-size:18px;color:var(--lp-ink2)}
+.lp-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.lp-step{background:var(--lp-bg);border:1px solid var(--lp-line);border-radius:20px;padding:28px}
+.lp-step-ico{width:44px;height:44px;border-radius:12px;background:var(--lp-tint);color:var(--lp-accent);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.lp-step-n{font-size:13px;color:var(--lp-ink3);font-weight:600;margin-bottom:6px}
+.lp-step p{margin-top:8px;color:var(--lp-ink2);font-size:16px}
+
+.lp-band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.lp-band.lp-flip .lp-band-media{order:-1}
+.lp-band-copy p.lp-intro{font-size:18px;color:var(--lp-ink2);margin-top:14px}
+.lp-points{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:18px}
+.lp-points li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px}
+.lp-tick{width:24px;height:24px;border-radius:99px;background:var(--lp-accent);color:#fff;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.lp-points b{display:block}
+.lp-points span.lp-muted{font-size:16px}
+.lp-example{display:inline-flex;align-items:center;gap:10px;margin-top:6px;font-size:15px}
+.lp-example s{text-decoration:none;color:var(--lp-ink3)}
+.lp-example em{font-style:normal;background:var(--lp-tint);color:var(--lp-accent);padding:2px 10px;border-radius:99px;font-weight:600}
+.lp-band-media{display:flex;justify-content:center;gap:24px}
+.lp-band-media .lp-mphone{zoom:.66}
+.lp-band-media .lp-mphone .dw-phone{box-shadow:0 0 0 1px rgba(22,22,22,.08),0 24px 48px rgba(22,22,22,.12)}
+.lp-note{display:flex;gap:10px;align-items:flex-start;margin-top:24px;padding:14px 16px;border-radius:14px;background:var(--lp-soft);font-size:15px;color:var(--lp-ink2)}
+.lp-note svg{flex:none;margin-top:2px;color:var(--lp-ink)}
+
+/* streak rules */
+.lp-rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.lp-rule{background:var(--lp-bg);border-radius:18px;padding:24px;border:1px solid var(--lp-line)}
+.lp-rule h3{display:flex;align-items:center;gap:10px;font-size:17px}
+.lp-rule p{margin-top:8px;font-size:15px;color:var(--lp-ink2)}
+.lp-dot{width:14px;height:14px;border-radius:99px;display:inline-block;flex:none;position:relative}
+.lp-dot-done{background:var(--lp-accent)}
+.lp-dot-kept{border:2px solid var(--lp-accent)}
+.lp-dot-kept:after{content:"";position:absolute;left:2px;right:2px;top:4px;height:2px;background:var(--lp-accent)}
+.lp-dot-miss{border:2px solid #8c8c86}
+.lp-dot-off{background:var(--lp-line)}
+.lp-week{display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px;margin-top:28px;padding:22px 24px;border-radius:18px;background:var(--lp-bg);border:1px solid var(--lp-line)}
+.lp-week-days{display:flex;gap:18px}
+.lp-week-days span{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:13px;color:var(--lp-ink3)}
+.lp-week b{font-size:16px}
+.lp-week .lp-streak{margin-left:auto;color:var(--lp-accent);font-weight:600}
+
+/* app + sign up */
+.lp-get{display:grid;grid-template-columns:auto minmax(0,1fr);gap:36px;align-items:center}
+.lp-signup{background:var(--lp-tint);border-radius:28px;padding:56px clamp(24px,5vw,64px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:center}
+.lp-signup h2{font-size:clamp(28px,3.4vw,38px)}
+.lp-signup p.lp-muted{margin-top:12px;font-size:18px}
+.lp-form{display:grid;gap:12px}
+.lp-field label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.lp-field input{width:100%;height:52px;border-radius:14px;border:1px solid #8c8c86;padding:0 16px;font:inherit;font-size:16px;background:#fff;color:var(--lp-ink)}
+.lp-form .lp-btn{width:100%;height:52px}
+.lp-fine{font-size:13px;color:var(--lp-ink2)}
+.lp-msg{font-size:15px;padding:12px 14px;border-radius:12px;background:#fff;color:var(--lp-ink)}
+.lp-msg b{color:var(--lp-accent)}
+
+/* footer */
+.lp-foot{background:var(--lp-night);color:var(--lp-night-ink);padding-block:56px calc(40px + env(safe-area-inset-bottom,0px));margin-top:88px}
+.lp-foot .lp-in{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:32px}
+.lp-foot .lp-logo{color:var(--lp-night-ink);--pill:var(--lp-mint)}
+.lp-foot p{color:var(--lp-night-muted);font-size:15px;margin-top:14px;max-width:30em}
+.lp-foot h4{margin:0 0 12px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--lp-night-muted);font-weight:600}
+.lp-foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px}
+.lp-foot a{text-decoration:none}
+.lp-foot a:hover{text-decoration:underline}
+.lp-foot-base{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center;border-top:1px solid #2e3231;padding-top:24px;margin-top:8px;font-size:14px;color:var(--lp-night-muted)}
+.lp-foot-app{display:flex;align-items:center;gap:12px}
+.lp-foot .lp-appicon{background:var(--lp-accent)}
+
+@media (max-width:960px){
+  .lp-nav{display:none}
+  .lp-hero .lp-in,.lp-band,.lp-signup{grid-template-columns:minmax(0,1fr)}
+  .lp-band.lp-flip .lp-band-media{order:0}
+  .lp-phones{height:560px;max-width:520px;width:100%;margin:0 auto}
+  .lp-phone{zoom:.62}
+  .lp-steps,.lp-rules{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .lp-foot .lp-in{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .lp-foot .lp-in > div:first-child{grid-column:1 / -1}
+}
+@media (max-width:600px){
+  .lp-login{display:none}
+  .lp-hero{padding-block:44px 24px}
+  .lp-phones{height:470px}
+  .lp-phone{zoom:.54}
+  .lp-phone-back{display:none}
+  .lp-phone-front{left:50%;transform:translateX(-50%)}
+  .lp-section{padding-block:64px}
+  .lp-steps,.lp-rules{grid-template-columns:minmax(0,1fr)}
+  .lp-band-media .lp-mphone{zoom:.6}
+  .lp-band-media .lp-mphone + .lp-mphone{display:none}
+  .lp-get{grid-template-columns:minmax(0,1fr)}
+  .lp-week .lp-streak{margin-left:0}
+}
+@media (prefers-reduced-motion:no-preference){.lp-btn{transition:background-color .15s}}
+</style>
+</head>
+<body>
+
+<header class="lp-header">
+  <div class="lp-in">
+    <a class="lp-logo" href="#top" aria-label="Daywell home"><!--WM_HEADER--></a>
+    <nav class="lp-nav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#habits">Habits</a>
+      <a href="#meditation">Meditation</a>
+      <a href="#streaks">Streaks</a>
+    </nav>
+    <div class="lp-head-cta">
+      <a class="lp-login" href="#signup">Log in</a>
+      <a class="lp-btn lp-btn-primary lp-btn-sm" href="#signup">Sign up</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="lp-hero">
+    <div class="lp-in">
+      <div class="lp-hero-copy">
+        <p class="lp-eyebrow">Habits · Meditation · Exercise</p>
+        <h1>Small routines, kept calmly.</h1>
+        <p class="lp-lede">Daywell puts your habits, meditation and workouts in one Today list. Check in with one tap, get a gentle reminder when it helps, and watch your streaks grow. Skipping a day never breaks them.</p>
+        <div class="lp-hero-cta">
+          <a class="lp-btn lp-btn-primary" href="#signup">Sign up free</a>
+          <a class="lp-btn lp-btn-ghost" href="#how">See how it works</a>
+        </div>
+        <div class="lp-avail"><!--ICON_HERO--><span><b>Daywell for iPhone and Android</b>Sign up here, then sign in on your phone.</span></div>
+      </div>
+      <div class="lp-phones" aria-label="Daywell app screens: Home and Habits">
+        <div class="lp-phone lp-phone-back" aria-hidden="true"><!--PHONE_HABITS--></div>
+        <div class="lp-phone lp-phone-front" aria-hidden="true"><!--PHONE_HOME--></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-section lp-soft" id="how">
+    <div class="lp-in">
+      <div class="lp-head">
+        <p class="lp-eyebrow">How it works</p>
+        <h2>One list for the day. One tap to check in.</h2>
+        <p>Daywell does three things: it organises your day, reminds you at the right moment and keeps track of your progress.</p>
+      </div>
+      <ol class="lp-steps">
+        <li class="lp-step"><div class="lp-step-ico"><!--I_LIST--></div><div class="lp-step-n">1 · Organise</div><h3>Everything for today, in one place</h3><p>Habits, a scheduled meditation and your workout appear together in time order, so you only have one list to look at.</p></li>
+        <li class="lp-step"><div class="lp-step-ico"><!--I_CHECK--></div><div class="lp-step-n">2 · Check in</div><h3>Done, Skip or Reschedule</h3><p>One tap marks it done. Check in on Home or in the section and it updates in both places. Reminders arrive only when you've asked for them.</p></li>
+        <li class="lp-step"><div class="lp-step-ico"><!--I_CHART--></div><div class="lp-step-n">3 · Track</div><h3>Streaks, badges and a weekly review</h3><p>See what's working. Every Sunday, a short review suggests one small change, such as moving a habit to a time that suits you better.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="lp-section" id="habits">
+    <div class="lp-in lp-band">
+      <div class="lp-band-copy">
+        <p class="lp-eyebrow">Habits</p>
+        <h2>Make it specific. Make it fit your day.</h2>
+        <p class="lp-intro">Daywell helps you turn a vague goal into a small action you can actually keep.</p>
+        <ul class="lp-points">
+          <li><span class="lp-tick"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Turn an idea into an action</b><span class="lp-muted">Pick a suggestion to make it concrete.</span><span class="lp-example"><s>Study</s>→<em>Study for 30 minutes</em></span></span></li>
+          <li><span class="lp-tick"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>A time, or a moment in your routine</b><span class="lp-muted">Choose 7:00 p.m., or anchor it to Morning, After lunch, After dinner or Before bed.</span></span></li>
+          <li><span class="lp-tick"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Save ideas for later</b><span class="lp-muted">Write down “Practise guitar” now and give it a schedule when you're ready.</span></span></li>
+        </ul>
+      </div>
+      <div class="lp-band-media" aria-hidden="true"><div class="lp-mphone"><!--PHONE_HABITS--></div></div>
+    </div>
+  </section>
+
+  <section class="lp-section lp-soft" id="meditation">
+    <div class="lp-in lp-band lp-flip">
+      <div class="lp-band-copy">
+        <p class="lp-eyebrow">Meditation</p>
+        <h2>Find a session. Do it where it lives. Log it here.</h2>
+        <p class="lp-intro">Browse meditation, breathwork and affirmations by intention (Peace, Focus, Sleep, Energy) and by length. Start the session on its source, then come back and tap Done.</p>
+        <ul class="lp-points">
+          <li><span class="lp-tick"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Your word is enough</b><span class="lp-muted">Completion is self-reported. No timers and no proof.</span></span></li>
+          <li><span class="lp-tick"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>One gentle nudge, at most</b><span class="lp-muted">If you don't come back, you get a single notification asking if you finished.</span></span></li>
+        </ul>
+        <p class="lp-note"><!--I_EXT--><span>Daywell doesn't host or play sessions. It helps you find them, schedule them and keep track.</span></p>
+      </div>
+      <div class="lp-band-media" aria-hidden="true"><div class="lp-mphone"><!--PHONE_CHECKIN--></div><div class="lp-mphone"><!--PHONE_DONE--></div></div>
+    </div>
+  </section>
+
+  <section class="lp-section" id="streaks">
+    <div class="lp-in">
+      <div class="lp-head">
+        <p class="lp-eyebrow">Streaks</p>
+        <h2>Streaks that forgive a busy day.</h2>
+        <p>Daywell encourages you and never makes you feel guilty. These are the rules, and they're the same everywhere in the app.</p>
+      </div>
+      <div class="lp-rules">
+        <div class="lp-rule"><h3><!--D_DONE-->Done</h3><p>Counts, and adds a day to your streak.</p></div>
+        <div class="lp-rule"><h3><!--D_KEPT-->Skip or Reschedule</h3><p>Keeps your streak. It doesn't add a day and it doesn't break it.</p></div>
+        <div class="lp-rule"><h3><!--D_MISS-->Missed</h3><p>Not checked off by midnight. The streak starts again, quietly.</p></div>
+        <div class="lp-rule"><h3><!--D_OFF-->Not scheduled</h3><p>Days a habit isn't planned don't count at all.</p></div>
+      </div>
+      <div class="lp-week" aria-label="Example week for Daily study">
+        <b>Daily study · this week</b>
+        <div class="lp-week-days">
+          <span>Mon<!--D_DONE--></span><span>Tue<!--D_DONE--></span><span>Wed<!--D_KEPT--></span><span>Thu<!--D_DONE--></span><span>Fri<!--D_DONE--></span><span>Sat<!--D_OFF--></span><span>Sun<!--D_OFF--></span>
+        </div>
+        <span class="lp-streak">4 of 5 days · streak kept</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-section lp-soft" id="app">
+    <div class="lp-in lp-get">
+      <!--ICON_APP-->
+      <div>
+        <p class="lp-eyebrow">The app</p>
+        <h2>Daywell lives on your phone.</h2>
+        <p class="lp-muted" style="margin-top:12px;font-size:18px;max-width:36em">Reminders, one-tap check-ins and the Today list are in the app. Create your account here and you're ready to start on any phone.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-section" id="signup" style="padding-bottom:0">
+    <div class="lp-in">
+      <div class="lp-signup">
+        <div>
+          <h2>Start with one small thing.</h2>
+          <p class="lp-muted">Create your account, add your first habit and see it on today's list. It takes about a minute.</p>
+        </div>
+        <form class="lp-form" id="signup-form" novalidate>
+          <div class="lp-field"><label for="su-name">Your first name</label><input id="su-name" name="name" type="text" autocomplete="given-name" placeholder="Alex"></div>
+          <div class="lp-field"><label for="su-email">Email</label><input id="su-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+          <button class="lp-btn lp-btn-primary" type="submit">Sign up</button>
+          <p class="lp-fine">Already have an account? <a href="#signup">Log in</a></p>
+          <p class="lp-msg" id="su-msg" role="status" hidden></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="lp-foot">
+  <div class="lp-in">
+    <div>
+      <a class="lp-logo" href="#top" aria-label="Daywell home"><!--WM_FOOTER--></a>
+      <p>Daywell helps you stay consistent with small daily routines: habits, meditation and exercise.</p>
+    </div>
+    <div><h4>Product</h4><ul><li><a href="#how">How it works</a></li><li><a href="#habits">Habits</a></li><li><a href="#meditation">Meditation</a></li><li><a href="#streaks">Streaks</a></li></ul></div>
+    <div><h4>Account</h4><ul><li><a href="#signup">Sign up</a></li><li><a href="#signup">Log in</a></li></ul></div>
+    <div><h4>Company</h4><ul><li><a href="#top">About</a></li><li><a href="#top">Privacy</a></li><li><a href="#top">Terms</a></li></ul></div>
+    <div class="lp-foot-base">
+      <span class="lp-foot-app"><!--ICON_FOOT--><span>Daywell for iPhone and Android</span></span>
+      <span>© 2026 Daywell</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function fitWordmarks(){
+  document.querySelectorAll('svg.lp-wm').forEach(svg => {
+    const t = svg.querySelector('.wt'); let w = 0;
+    try { w = t.getComputedTextLength(); } catch (e) { return; }
+    if (!w) return;
+    const x1 = w + 4;
+    svg.querySelector('.p1').setAttribute('x', x1);
+    svg.querySelector('.p2').setAttribute('x', x1 + 15);
+    const vbw = Math.ceil(x1 + 15 + 9.5 + 3);
+    svg.setAttribute('viewBox', '0 0 ' + vbw + ' 60');
+    svg.setAttribute('width', Math.round(vbw * svg.getAttribute('height') / 60));
+  });
+}
+fitWordmarks();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWordmarks);
+
+document.getElementById('signup-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = document.getElementById('su-email');
+  const msg = document.getElementById('su-msg');
+  const name = document.getElementById('su-name').value.trim();
+  msg.hidden = false;
+  if (!email.value.trim() || !email.checkValidity()) {
+    msg.textContent = 'Enter an email address like you@example.com.';
+    email.focus();
+    return;
+  }
+  msg.innerHTML = '';
+  const b = document.createElement('b'); b.textContent = 'Prototype: ';
+  msg.append(b, document.createTextNode((name ? 'Thanks, ' + name + '. ' : '') + 'Sign-up isn’t connected yet, so no account was created.'));
+});
+</script>
+</body>
+</html>
