@@ -43,6 +43,7 @@ const whenLabel = (h) => (h.kind === 'anchor' ? h.anchor : fmtTime(h.time));
 const yt = (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`;
 const sp = (q) => `https://open.spotify.com/search/${encodeURIComponent(q)}`;
 const SESSIONS = [
+  { id: 'eod', title: 'End of the day meditation', type: 'Meditation', mins: 2.5, source: 'YouTube', intent: 'Peace', by: 'Sofia Gospodinova', featured: true, url: 'https://www.youtube.com/watch?v=shAngFnZokU', desc: 'Recorded for Daywell by Sofia Gospodinova. A short practice to close the day and let it settle.' },
   { id: 'mfb', title: 'Morning focus breath', type: 'Breathwork', mins: 8, source: 'YouTube', intent: 'Focus', url: yt('morning focus breathing 8 minutes'), desc: 'A short guided breathing practice to settle your attention before the day starts. Slow inhales and longer exhales, finishing with a minute of quiet.' },
   { id: 'box', title: 'Box breathing for clear thinking', type: 'Breathwork', mins: 6, source: 'YouTube', intent: 'Focus', url: yt('box breathing guided 6 minutes'), desc: 'Four counts in, hold, out, hold. A simple pattern to steady a busy mind.' },
   { id: 'sbw', title: 'Steady breath before work', type: 'Breathwork', mins: 10, source: 'Spotify', intent: 'Focus', url: sp('breathing before work'), desc: 'Ten minutes of even breathing to arrive at your desk calm and ready.' },
@@ -337,8 +338,11 @@ function Med() {
   const lenFn = ui.len ? LENGTHS.find((l) => l[0] === ui.len)[2] : () => true;
   const res = SESSIONS.filter((s) => s.type === ui.medType && (!ui.intent || s.intent === ui.intent) && lenFn(s.mins) && (!q || s.title.toLowerCase().includes(q)));
   const chip = (a, v, label, on) => `<button class="dw-chip t-label${on ? ' on' : ''}" data-a="${a}" data-v="${v}" aria-pressed="${on}">${label}</button>`;
+  const feat = SESSIONS.find((x) => x.featured);
   return `<div class="dw-body">${nav('Meditation')}
-    <div class="dw-chips mt2">${types.map((t) => chip('medType', t, t, ui.medType === t)).join('')}</div>
+    ${feat ? `<a class="dw-tint mt2" href="#med/${feat.id}" style="display:block;text-decoration:none;color:inherit"><div class="between"><div class="grow"><div class="t-caption c-accent">Made for Daywell</div><div class="t-body-strong mt1">${esc(feat.title)}</div>
+      <div class="dw-meta t-caption mt1"><span class="row" style="gap:4px">${ic('clock', 14)}${feat.mins} min</span><span class="sep">·</span>${feat.source}<span class="sep">·</span>${esc(feat.by)}</div></div><span class="c-accent">${ic('chevron-right')}</span></div></a>` : ''}
+    <div class="dw-chips mt4">${types.map((t) => chip('medType', t, t, ui.medType === t)).join('')}</div>
     <label class="dw-field search mt4">${ic('search')}<input id="f-q" data-f="q" placeholder="Search ${ui.medType.toLowerCase()}" value="${esc(ui.q)}" autocomplete="off"></label>
     <div class="t-overline up c-ink3 mt5">Intention</div>
     <div class="dw-chips mt2">${['Peace', 'Focus', 'Sleep', 'Energy'].map((t) => chip('intent', t, t, ui.intent === t)).join('')}</div>
@@ -357,7 +361,7 @@ function SessionDetail(id) {
   const sched = S.meds.find((m) => m.sessionId === id);
   const n = sched ? streak('m:' + sched.id) : 0;
   return `<div class="dw-body">${nav('', { back: '#med' })}
-    <div class="t-overline up c-ink3 mt3">${s.type}</div>
+    <div class="t-overline up ${s.featured ? 'c-accent' : 'c-ink3'} mt3">${s.featured ? `Made for Daywell · ${s.type}` : s.type}</div>
     <h1 class="t-title mt1">${esc(s.title)}</h1>
     <div class="dw-meta t-body mt2"><span class="row" style="gap:4px">${ic('clock', 16)}${s.mins} min</span><span class="sep">·</span>${s.source}<span class="sep">·</span>${s.intent}</div>
     <p class="t-body c-ink2 mt5">${esc(s.desc)}</p>
